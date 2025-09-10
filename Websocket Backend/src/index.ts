@@ -12,9 +12,6 @@ let allSockets:User[]=[];
 //event handler
 wss.on("connection",function(socket){    
     
-
-    
-
     socket.on("message",(e)=>{
         //@ts-ignore
         const parsedmessage=JSON.parse(e)
@@ -24,7 +21,7 @@ wss.on("connection",function(socket){
                 room:parsedmessage.payload.roomId,
             })
         }        
-        if(parsedmessage.type === "chat"){
+        if(parsedmessage.type === "chat") {
             console.log("User wants to chat");
             
             let currentuserroom=null;
