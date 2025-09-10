@@ -11,15 +11,8 @@ function App() {
       setmessages(m=>[...m,event.data])
     }
     wsref.current=ws;
-    ws.onopen=()=>{
-      ws.send(JSON.stringify({
-        type:"join",
-        payload:{
-          roomId:"red"
-        }
-      }))
     }
-  },[])
+  ,[])
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -51,12 +44,20 @@ function App() {
 
         {/* Input */}
         <div className="p-3 border-t flex items-center space-x-2">
+          <div >
           <input
             id='message'
             type="text"
             placeholder="Type a message..."
             className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          <input
+            id='roomId'
+            type="text"
+            placeholder="Give the room Id"
+            className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          </div>
           <button onClick={()=>{
             const message=document.getElementById("message")?.value;
             wsref.current.send(JSON.stringify({
@@ -67,7 +68,20 @@ function App() {
             }))
           }}
            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
-            Send
+            Send Message
+          </button>
+          <button onClick={()=>{
+            const roomId=document.getElementById("roomId")?.value;
+            wsref.onopen(
+            wsref.current.send(JSON.stringify({
+              type:"join",
+              payload:{
+                roomId:roomId
+              }
+            })))
+          }}
+           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full">
+            Send Room Id
           </button>
         </div>
       </div>
